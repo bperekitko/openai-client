@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout,QListWidget, QListWidgetItem, QLabel, QWidget
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
-from styles import scroll_bar_style, list_widget_style
-from button import Button
-from resources import NEW_CONVERSATION_ICON_NAME, get_icon, FORK_ICON_NAME
+from .styles import scroll_bar_style, list_widget_style
+from .button import Button
+from .resources import NEW_CONVERSATION_ICON_NAME, get_icon, FORK_ICON_NAME
 
 
 class Conversations(QVBoxLayout):

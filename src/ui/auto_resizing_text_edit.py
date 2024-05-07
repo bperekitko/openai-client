@@ -1,5 +1,5 @@
 from PyQt6 import QtWidgets, QtGui, QtCore
-from styles import scroll_bar_style, prompt_query_style
+from .styles import scroll_bar_style, prompt_query_style
 from PyQt6.QtCore import Qt
 
 

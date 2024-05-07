@@ -1,10 +1,10 @@
 from PyQt6.QtWidgets import QTextEdit, QHBoxLayout, QWidget, QFrame, QStackedWidget, QScrollBar, QSpacerItem, QSizePolicy
 from PyQt6.QtCore import Qt, QEvent, QPoint
 from PyQt6.QtGui import QTextOption
-from button import Button
-from resources import SEND_ICON_NAME, get_icon
-from styles import scroll_bar_style, invisible_scroll
-from auto_resizing_text_edit import AutoExpandingTextEdit
+from .button import Button
+from .resources import SEND_ICON_NAME, get_icon
+from .styles import scroll_bar_style, invisible_scroll
+from .auto_resizing_text_edit import AutoExpandingTextEdit
 
 
 class Prompt(QHBoxLayout):

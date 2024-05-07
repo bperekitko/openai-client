@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QTextEdit
-from styles import scroll_bar_style
+from .styles import scroll_bar_style
 
 
 class Chat(QTextEdit):
