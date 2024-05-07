@@ -1,7 +1,6 @@
 button_style = """
             QPushButton {
                 background-color: #3A3A62;
-                color: white;
                 border-radius: 10px;
                 padding: 10px;
                 font-weight: bold;
@@ -20,7 +19,7 @@ button_style = """
 scroll_bar_style = """
             QScrollBar:vertical {
                 border: none;
-                background-color: transparent;
+                background: transparent;
                 width: 12px;
             }
 
@@ -31,18 +30,29 @@ scroll_bar_style = """
             }
             QScrollBar::add-line:vertical {
                   border: none;
-                  background: none;
+                  background: transparent;
             }
             QScrollBar::sub-line:vertical {
                   border: none;
-                  background: none;
+                  background: transparent;
             }
         """
-
+invisible_scroll = """
+    QScrollBar:vertical {
+        width: 12px;
+        background: transparent;
+    }
+    QScrollBar::handle:vertical {
+        background: transparent;
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        border: none;
+        background: none;
+    }
+"""
 list_widget_style = """
             QListWidget {
                 border: none;
-                color: white;
                 background-color: #141526;
             }
 
@@ -66,3 +76,9 @@ list_widget_style = """
                 background-color: #25284A;
             }
             """
+prompt_query_style = """
+     QTextEdit{
+                background: transparent;
+                padding: 1px;
+            }
+"""

@@ -1,16 +1,17 @@
 from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtGui import QFont, QCursor
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
 from styles import button_style
 
-button_font = QFont("Verdana", 10, QFont.Weight.Bold)
 
 class Button(QPushButton):
-     def __init__(self, title:str, onclick=None):
+    def __init__(self, title: str, icon=None, tooltip=None, onclick=None):
         super().__init__(title)
-        self.setFont(button_font)
+        self.setFont(QFont("Verdana", 10, QFont.Weight.Bold))
         self.setStyleSheet(button_style)
+        if icon != None:
+            self.setIcon(icon)
+        self.setToolTip(tooltip)
         self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         if onclick != None:
             self.clicked.connect(onclick)
-       

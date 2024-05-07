@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QLabel, QWidget
+from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout,QListWidget, QListWidgetItem, QLabel, QWidget
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 from styles import scroll_bar_style, list_widget_style
 from button import Button
+from resources import NEW_CONVERSATION_ICON_NAME, get_icon, FORK_ICON_NAME
 
 
 class Conversations(QVBoxLayout):
@@ -22,15 +23,16 @@ class Conversations(QVBoxLayout):
             self.conversation_list.addItem(item)
             conversation_layout = QHBoxLayout()
             conversation_layout.addWidget(label, 1)
-            conversation_layout.addWidget(Button("Fork me", lambda _, data=data: print(f"Forking conversation: {data['filename']}")))
+            fork_button = Button(None, get_icon(FORK_ICON_NAME), "Fork conversation", lambda _, data=data: print(f"Forking conversation: {data['filename']}"))
+            conversation_layout.addWidget(fork_button)
             item_widget = QWidget()
             item_widget.setLayout(conversation_layout)
             self.conversation_list.setItemWidget(item, item_widget)
 
         self.conversation_list.setStyleSheet(list_widget_style + scroll_bar_style)
-        self.start_new_button = Button("Start New Conversation")
+        new_conversation_button = Button(None, get_icon(NEW_CONVERSATION_ICON_NAME), "Start new conversation", None)
         self.addWidget(self.conversation_list)
-        self.addWidget(self.start_new_button)
+        self.addWidget(new_conversation_button)
 
     def on_item_clicked(self, item: QListWidgetItem):
-        print(f"Kliknięto element: {item.data(Qt.ItemDataRole.UserRole)}")
+        print(f"element: {item.data(Qt.ItemDataRole.UserRole)}")

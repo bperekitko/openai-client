@@ -26,6 +26,7 @@ class ChatGPTApp(QMainWindow):
         palette.setColor(QPalette.ColorRole.Window, QColor("#1E1E2E"))
         palette.setColor(QPalette.ColorRole.Base, QColor("#141526"))
         self.setPalette(palette)
+        self.setStyleSheet("QWidget { color: #E8E8EF; }")
         
         self.chat = Chat()
         prompt = Prompt(on_prompt_emitted=self.send_query)
@@ -38,7 +39,7 @@ class ChatGPTApp(QMainWindow):
         main_layout = QHBoxLayout()
         main_layout.addLayout(left_layout, 2)
         main_layout.addLayout(right_layout, 5)
-        main_layout.setContentsMargins(0,0,0,0)
+        main_layout.setContentsMargins(10,10,10,5)
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
