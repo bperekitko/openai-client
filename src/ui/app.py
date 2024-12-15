@@ -1,5 +1,7 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
 from PyQt6.QtGui import QColor, QPalette, QGuiApplication, QCursor
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
+
+from conversations.conversation import Conversation
 from .chat import Chat
 from .conversations import Conversations
 from .prompt import Prompt
@@ -8,9 +10,10 @@ from .prompt import Prompt
 class ChatGPTApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.chat = Chat()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         self.setWindowTitle("ChatGPT Desktop App")
         cursor_pos = QCursor.pos()
         screen = QGuiApplication.screenAt(cursor_pos)
@@ -25,16 +28,15 @@ class ChatGPTApp(QMainWindow):
         palette.setColor(QPalette.ColorRole.Window, QColor("#1E1E2E"))
         palette.setColor(QPalette.ColorRole.Base, QColor("#141526"))
         self.setPalette(palette)
-        self.setStyleSheet("QWidget { color: #E8E8EF; }")
-        
-        self.chat = Chat()
+
         prompt = Prompt(on_prompt_emitted=self.send_query)
 
         right_layout = QVBoxLayout()
         right_layout.addWidget(self.chat, 1)
         right_layout.addLayout(prompt)
 
-        left_layout = Conversations()
+        left_layout = Conversations(lambda filename: self.chat.set_conversation(Conversation.load(filename)))
+
         main_layout = QHBoxLayout()
         main_layout.addLayout(left_layout, 2)
         main_layout.addLayout(right_layout, 5)
@@ -46,4 +48,5 @@ class ChatGPTApp(QMainWindow):
 
     def send_query(self, query):
         response = "This is a simulated response to: " + query
-        self.chat.update(response)
+        print(response)
+        # self.chat.set_conversation(response)

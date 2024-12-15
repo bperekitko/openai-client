@@ -1,6 +1,9 @@
 import sys
-from ui.app import ChatGPTApp
+
 from PyQt6.QtWidgets import QApplication
+
+from ui.app import ChatGPTApp
+
 
 def main():
     app = QApplication(sys.argv)

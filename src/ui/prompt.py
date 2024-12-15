@@ -1,10 +1,10 @@
-from PyQt6.QtWidgets import QTextEdit, QHBoxLayout, QWidget, QFrame, QStackedWidget, QScrollBar, QSpacerItem, QSizePolicy
-from PyQt6.QtCore import Qt, QEvent, QPoint
-from PyQt6.QtGui import QTextOption
+from PyQt6.QtCore import Qt, QEvent
+from PyQt6.QtWidgets import QHBoxLayout, QFrame, QScrollBar
+
+from .auto_resizing_text_edit import AutoExpandingTextEdit
 from .button import Button
 from .resources import SEND_ICON_NAME, get_icon
 from .styles import scroll_bar_style, invisible_scroll
-from .auto_resizing_text_edit import AutoExpandingTextEdit
 
 
 class Prompt(QHBoxLayout):
@@ -29,7 +29,7 @@ class Prompt(QHBoxLayout):
         frame.setStyleSheet("QFrame{ border: 1px solid #3A3A62; border-radius: 5px} QTextEdit{border: none;}")
         frame.setLayout(frame_layout)
 
-        self.onPromptEmitted = on_prompt_emitted
+        self.on_prompt_emitted = on_prompt_emitted
         self.input.installEventFilter(self)
         self.addWidget(frame)
         self.update_scroll_bar()
@@ -38,7 +38,7 @@ class Prompt(QHBoxLayout):
         self.scroll_bar.setMaximum(self.input.verticalScrollBar().maximum())
         self.scroll_bar.setPageStep(self.input.verticalScrollBar().pageStep())
         doc_height = self.input.document().size().height()
-        if doc_height > self.input.getMaxHeight():
+        if doc_height > self.input.get_max_height():
             self.scroll_bar.setStyleSheet(scroll_bar_style)
         else:
             self.scroll_bar.setStyleSheet(invisible_scroll)
@@ -46,7 +46,7 @@ class Prompt(QHBoxLayout):
     def emitPrompt(self):
         value = self.input.toPlainText().strip()
         if len(value) != 0:
-            self.onPromptEmitted(value)
+            self.on_prompt_emitted(value)
             self.input.clear()
 
     def eventFilter(self, obj, event):
