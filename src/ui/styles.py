@@ -82,3 +82,25 @@ prompt_query_style = """
                 padding: 1px;
             }
 """
+
+user_chat_bubble_style = """
+                        QLabel {
+                            background-color: #25284A;
+                            border-radius: 10px;
+                            border: 1px solid black;
+                            padding: 10px;  
+                            font-size: 18px;
+                            color: #bcbcbc;
+                        }
+                    """
+
+assistant_chat_bubble_style = """
+                        QLabel {
+                            background-color: #141526;
+                            border-radius: 10px;
+                            border: 1px solid black;
+                            padding: 10px;  
+                            font-size: 18px;
+                            color: #bcbcbc;
+                        }
+                    """

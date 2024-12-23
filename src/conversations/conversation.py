@@ -7,11 +7,14 @@ CONVERSATIONS_SAVE_PATH = os.path.join(os.path.dirname(__file__), 'saved')
 
 
 class Conversation:
+    __DEFAULT_ASSISTANT_DESCRIPTION = "You are an expert in machine learning, specialized in creating models for cryptocurrency market predictions"
+
     def __init__(self, title):
         self.file_name = uuid.uuid4()
         self.title = title
         self.messages = []
         self.tokens_used = 0
+        self.add_message("system", Conversation.__DEFAULT_ASSISTANT_DESCRIPTION)
 
     def add_message(self, role, content):
         message = {"role": role, "content": content}

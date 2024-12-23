@@ -1,6 +1,7 @@
 from PyQt6.QtGui import QColor, QPalette, QGuiApplication, QCursor
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
 
+from client.client import OpenAiClient
 from conversations.conversation import Conversation
 from .chat import Chat
 from .conversations import Conversations
@@ -10,7 +11,9 @@ from .prompt import Prompt
 class ChatGPTApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.chat = Chat()
+        self.client = OpenAiClient()
+        self.conversations = Conversations(self.on_conversation_changed, self.on_new_conversation_clicked, self.on_new_conversation_clicked)
+        self.chat = Chat(lambda conversation: self.conversations.add_conversation(conversation))
         self.init_ui()
 
     def init_ui(self):
@@ -35,10 +38,8 @@ class ChatGPTApp(QMainWindow):
         right_layout.addWidget(self.chat, 1)
         right_layout.addLayout(prompt)
 
-        left_layout = Conversations(lambda filename: self.chat.set_conversation(Conversation.load(filename)))
-
         main_layout = QHBoxLayout()
-        main_layout.addLayout(left_layout, 2)
+        main_layout.addLayout(self.conversations, 2)
         main_layout.addLayout(right_layout, 5)
         main_layout.setContentsMargins(10,10,10,5)
 
@@ -46,7 +47,12 @@ class ChatGPTApp(QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
+    def on_conversation_changed(self, conversation_name):
+        conversation = Conversation.load(conversation_name)
+        self.chat.set_conversation(conversation)
+
+    def on_new_conversation_clicked(self):
+        self.chat.set_conversation(Conversation(None))
+
     def send_query(self, query):
-        response = "This is a simulated response to: " + query
-        print(response)
-        # self.chat.set_conversation(response)
+        self.chat.add_message(query, lambda conversation: self.client.send_query(conversation))

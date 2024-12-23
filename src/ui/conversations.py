@@ -9,9 +9,10 @@ from .resources import NEW_CONVERSATION_ICON_NAME, get_icon, FORK_ICON_NAME, DEL
 
 
 class Conversations(QVBoxLayout):
-    def __init__(self, on_conversation_clicked):
+    def __init__(self, on_conversation_clicked, on_new_conversation_clicked, on_conversation_deleted):
         super().__init__()
         self.on_conversation_clicked = on_conversation_clicked
+        self.on_conversation_deleted = on_conversation_deleted
 
         self.conversation_list = QListWidget()
         self.conversation_list.itemClicked.connect(self.on_item_clicked)
@@ -21,7 +22,8 @@ class Conversations(QVBoxLayout):
 
         self.conversation_list.setStyleSheet(list_widget_style + scroll_bar_style)
         self.addWidget(self.conversation_list)
-        self.addWidget(Button("", get_icon(NEW_CONVERSATION_ICON_NAME), "Start new conversation", None))
+        self.addWidget(
+            Button("", get_icon(NEW_CONVERSATION_ICON_NAME), "Start new conversation", on_new_conversation_clicked))
 
     def on_item_clicked(self, item: QListWidgetItem):
         conversation_name = item.data(Qt.ItemDataRole.UserRole).file_name
@@ -45,7 +47,8 @@ class Conversations(QVBoxLayout):
                              lambda _, it=conversation: self.fork_conversation(it.file_name))
 
         delete_button = Button("", get_icon(DELETE_ICON_NAME), "Delete conversation",
-                               lambda _, it={"filename": conversation.file_name, "item": item}: self.remove_conversation(
+                               lambda _,
+                                      it={"filename": conversation.file_name, "item": item}: self.remove_conversation(
                                    it['filename'], it['item']))
 
         conversation_layout.addWidget(delete_button)
@@ -57,3 +60,4 @@ class Conversations(QVBoxLayout):
     def remove_conversation(self, filename, item):
         Conversation.delete(filename)
         self.conversation_list.takeItem(self.conversation_list.row(item))
+        self.on_conversation_deleted()

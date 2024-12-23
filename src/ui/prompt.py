@@ -19,7 +19,7 @@ class Prompt(QHBoxLayout):
         self.scroll_bar.valueChanged.connect(self.input.verticalScrollBar().setValue)
 
         frame_layout = QHBoxLayout()
-        send_button = Button(None, get_icon(SEND_ICON_NAME), "Send", self.emitPrompt)
+        send_button = Button(None, get_icon(SEND_ICON_NAME), "Send", self.emit_prompt)
         frame_layout.addWidget(self.input, 1)
         frame_layout.addWidget(send_button, 0, Qt.AlignmentFlag.AlignBottom)
         frame_layout.addWidget(self.scroll_bar)
@@ -43,7 +43,7 @@ class Prompt(QHBoxLayout):
         else:
             self.scroll_bar.setStyleSheet(invisible_scroll)
 
-    def emitPrompt(self):
+    def emit_prompt(self):
         value = self.input.toPlainText().strip()
         if len(value) != 0:
             self.on_prompt_emitted(value)
@@ -56,6 +56,6 @@ class Prompt(QHBoxLayout):
                     self.input.insertPlainText("\n")
                     return True
                 else:
-                    self.emitPrompt()
+                    self.emit_prompt()
                     return True
         return False
